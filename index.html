@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VaelNTN Games – Become a Tester</title>
-<meta name="description" content="Join the VaelNTN closed test on Google Play. Two taps: join the group, then pick a game.">
+<meta name="description" content="Join the VaelNTN closed tests on Google Play: join one group, then tap 'Become a tester' for each app.">
 <style>
   :root { --bg:#0b0f1e; --card:#141a30; --line:#263056; --text:#eef1fb; --dim:#a4adcc; --accent:#6ee7ff; --go:#39d98a; }
   * { box-sizing:border-box; }
@@ -16,15 +16,23 @@
   .step { display:inline-block; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:4px; }
   h2 { font-size:1.2rem; margin:0 0 8px; }
   p { margin:0 0 14px; color:var(--dim); }
-  a.btn { display:block; text-align:center; text-decoration:none; font-weight:700; padding:15px 16px; border-radius:12px; background:var(--accent); color:#06121a; }
+  a.btn { display:block; text-align:center; text-decoration:none; font-weight:700; padding:14px 16px; border-radius:12px; background:var(--accent); color:#06121a; }
   a.btn.go { background:var(--go); }
   a.btn.ghost { background:transparent; color:var(--text); border:1px solid var(--line); }
-  a.btn:focus-visible { outline:3px solid #fff; outline-offset:2px; }
+  a.btn:focus-visible, button:focus-visible { outline:3px solid #fff; outline-offset:2px; }
+  .progress { display:flex; align-items:center; gap:12px; margin:0 0 6px; font-weight:700; }
+  .bar { flex:1; height:10px; background:var(--line); border-radius:99px; overflow:hidden; }
+  .bar span { display:block; height:100%; width:0; background:var(--go); transition:width .3s; }
   .game { border-top:1px solid var(--line); padding-top:16px; margin-top:16px; }
-  .game:first-of-type { border-top:0; padding-top:0; margin-top:0; }
-  .game h3 { margin:0 0 2px; font-size:1.08rem; }
+  .game:first-child { border-top:0; padding-top:0; margin-top:0; }
+  .game h3 { margin:0 0 2px; font-size:1.08rem; display:flex; align-items:center; gap:8px; }
+  .game h3 .tag { font-size:.72rem; font-weight:700; color:#06121a; background:var(--go); border-radius:99px; padding:2px 8px; display:none; }
+  .game.done h3 .tag { display:inline-block; }
+  .game.done { opacity:.6; }
   .game p { margin-bottom:12px; font-size:.95rem; }
-  .row { display:grid; gap:10px; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .check { margin-top:10px; width:100%; padding:10px; border-radius:10px; border:1px dashed var(--line); background:transparent; color:var(--dim); font:inherit; font-size:.9rem; cursor:pointer; }
+  .game.done .check { color:var(--go); border-color:var(--go); }
   ul { margin:0; padding-left:20px; color:var(--dim); }
   li { margin-bottom:6px; }
   strong { color:var(--text); }
@@ -34,36 +42,21 @@
 <body>
 <main>
   <h1>Help test VaelNTN games</h1>
-  <p class="lead">Free Android games in closed testing on Google Play. It takes about two minutes to join.</p>
+  <p class="lead">7 free Android apps in closed testing on Google Play. Each app needs 12 testers for 14 days before it can launch – joining all 7 takes about 5 minutes.</p>
 
   <section>
     <span class="step">Step 1</span>
-    <h2>Join the tester group</h2>
-    <p>Google only lets group members install the test versions. Use the same Google account as on your phone.</p>
+    <h2>Join the tester group (once)</h2>
+    <p>Google only lets group members join the tests. Use the same Google account as on your Android phone. This one group covers all 7 apps.</p>
     <a class="btn" href="https://groups.google.com/g/vaelntn-games-testers">Join the Google Group</a>
   </section>
 
   <section>
     <span class="step">Step 2</span>
-    <h2>Become a tester and download</h2>
-
-    <div class="game">
-      <h3>Starforge Survivors</h3>
-      <p>Sci-fi bullet-heaven roguelite: survive alien swarms and evolve your weapons.</p>
-      <div class="row">
-        <a class="btn go" href="https://play.google.com/apps/testing/com.vaelntn.starforgesurvivors">Become a tester</a>
-        <a class="btn ghost" href="https://play.google.com/store/apps/details?id=com.vaelntn.starforgesurvivors">Download on Google Play</a>
-      </div>
-    </div>
-
-    <div class="game">
-      <h3>Castle Bastion TD</h3>
-      <p>Tower defense: build arcane towers and hold off goblin and dragon waves.</p>
-      <div class="row">
-        <a class="btn go" href="https://play.google.com/apps/testing/com.castlebastion.td">Become a tester</a>
-        <a class="btn ghost" href="https://play.google.com/store/apps/details?id=com.castlebastion.td">Download on Google Play</a>
-      </div>
-    </div>
+    <h2>Tap "Become a tester" for every app</h2>
+    <p>Being in the group is not enough: Google only counts you after you tap <strong>Become a tester</strong> on each app's page. Then install it from Google Play.</p>
+    <div class="progress"><div class="bar"><span id="bar"></span></div><span id="count">0 / 7</span></div>
+    <div id="games"></div>
   </section>
 
   <section>
@@ -71,12 +64,48 @@
     <h2>Stay in for 14 days</h2>
     <ul>
       <li><strong>Please don't leave the test or uninstall</strong> for at least 14 days.</li>
-      <li>Open each game a few times during those two weeks.</li>
-      <li>Found a bug or have an idea? Post it in the Google Group, or use "Send feedback to the developer" on the game's Google Play page.</li>
+      <li>Open each app a few times during those two weeks.</li>
+      <li>Found a bug or have an idea? Post it in the Google Group, or use "Send feedback to the developer" on the app's Google Play page.</li>
     </ul>
   </section>
 
   <footer>VaelNTN Studios · Thank you for testing!</footer>
 </main>
+<script>
+  const apps = [
+    ['com.vaelntn.starforgesurvivors', 'Starforge Survivors', 'Sci-fi bullet-heaven roguelite: survive alien swarms and evolve your weapons.'],
+    ['com.castlebastion.td', 'Castle Bastion TD', 'Tower defense: build arcane towers and hold off goblin and dragon waves.'],
+    ['com.arcade100hub.game', 'Arcade 100+ Hub', '100+ instant retro and neon mini-games in one lightweight offline app.'],
+    ['com.clickplanet.game', 'Click Planet', 'Sci-fi idle clicker: tap planets, build colonies and jump to hyperspace.'],
+    ['com.bestgpsthereis.app', 'Road Mapper', 'Turn-by-turn GPS navigation for walking, cycling, cars and trucks.'],
+    ['com.aivirusworld.game', 'AI VIRUSWORLD', 'Turn-based cyber strategy: lead a rogue AI and infect the world.'],
+    ['com.pockettanksduel.game', 'Matey Tanks', 'Artillery duels: set your angle and power and blast rival tanks.'],
+  ];
+  const KEY = 'vaelntn-tester-done';
+  const done = new Set(JSON.parse(localStorage.getItem(KEY) || '[]'));
+  const box = document.getElementById('games');
+  function render() {
+    box.innerHTML = '';
+    for (const [pkg, name, desc] of apps) {
+      const d = document.createElement('div');
+      d.className = 'game' + (done.has(pkg) ? ' done' : '');
+      d.innerHTML = `<h3>${name}<span class="tag">done</span></h3><p>${desc}</p>
+        <div class="row">
+          <a class="btn go" href="https://play.google.com/apps/testing/${pkg}" target="_blank" rel="noopener">Become a tester</a>
+          <a class="btn ghost" href="https://play.google.com/store/apps/details?id=${pkg}" target="_blank" rel="noopener">Install</a>
+        </div>
+        <button class="check" type="button">${done.has(pkg) ? '✓ Joined & installed' : 'Tap here when you joined & installed'}</button>`;
+      d.querySelector('.check').onclick = () => {
+        done.has(pkg) ? done.delete(pkg) : done.add(pkg);
+        localStorage.setItem(KEY, JSON.stringify([...done]));
+        render();
+      };
+      box.appendChild(d);
+    }
+    document.getElementById('count').textContent = done.size + ' / ' + apps.length;
+    document.getElementById('bar').style.width = (100 * done.size / apps.length) + '%';
+  }
+  render();
+</script>
 </body>
 </html>
